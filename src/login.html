@@ -15,7 +15,9 @@
         <p>Sign in to your account</p>
       </div>
       
-      <form class="login-form">
+      <form class="login-form" id="loginForm">
+        <div id="errorMessage" class="error-message" style="display: none; color: #e53e3e; margin-bottom: 16px; padding: 10px; background-color: #fff5f5; border-radius: 6px; text-align: center;"></div>
+        
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -36,11 +38,11 @@
           <label for="remember">Remember me</label>
         </div>
         
-        <button type="submit" class="login-button">Sign In</button>
+        <button type="submit" class="login-button" id="loginButton">Sign In</button>
       </form>
       
       <div class="login-footer">
-        <p>Don't have an account? <a href="#">Sign up</a></p>
+        <p>Don't have an account? <a href="/register">Sign up</a></p>
       </div>
     </div>
   </div>
@@ -54,6 +56,48 @@
         passwordInput.type = 'password';
       }
     }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+      const errorMessage = document.getElementById('errorMessage');
+      const loginButton = document.getElementById('loginButton');
+      
+      // Reset error message
+      errorMessage.style.display = 'none';
+      
+      // Disable button and show loading state
+      loginButton.disabled = true;
+      loginButton.innerText = 'Signing in...';
+      
+      // Simulate API authentication
+      setTimeout(() => {
+        // For demo purposes - in a real app, you would validate against a backend
+        // Using hardcoded values for demonstration
+        if (email === 'user@example.com' && password === 'password') {
+          // Store auth info if remember is checked
+          if (remember) {
+            localStorage.setItem('authUser', JSON.stringify({ email }));
+          } else {
+            sessionStorage.setItem('authUser', JSON.stringify({ email }));
+          }
+          
+          // Redirect to profile page
+          window.location.href = '/profile';
+        } else {
+          // Show error
+          errorMessage.textContent = 'Invalid email or password. Please try again.';
+          errorMessage.style.display = 'block';
+          
+          // Reset button
+          loginButton.disabled = false;
+          loginButton.innerText = 'Sign In';
+        }
+      }, 1000);
+    });
   </script>
 </body>
 </html>

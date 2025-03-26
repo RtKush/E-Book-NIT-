@@ -120,6 +120,17 @@ body {
   background-color: #4263eb;
 }
 
+.login-button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
 .login-footer {
   text-align: center;
   margin-top: 24px;
