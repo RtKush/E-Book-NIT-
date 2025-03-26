@@ -6,10 +6,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bookopia Login</title>
   <link rel="stylesheet" href="login.css">
+  <style>
+    .share-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background-color: transparent;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    
+    .share-button:hover {
+      color: #4f46e5;
+    }
+    
+    .share-icon {
+      width: 16px;
+      height: 16px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="login-container">
+      <button class="share-button" onclick="shareContent()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        Share
+      </button>
+      
       <div class="login-header">
         <h1>Bookopia</h1>
         <p>Sign in to your account</p>
@@ -54,6 +85,28 @@
         passwordInput.type = 'text';
       } else {
         passwordInput.type = 'password';
+      }
+    }
+
+    function shareContent() {
+      // Check if Web Share API is supported
+      if (navigator.share) {
+        navigator.share({
+          title: 'Bookopia Login',
+          text: 'Check out Bookopia - your destination for quality books!',
+          url: window.location.href,
+        })
+          .then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing:', error));
+      } else {
+        // Copy to clipboard fallback
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => {
+            alert('Link copied to clipboard!');
+          })
+          .catch(() => {
+            alert('Failed to copy link');
+          });
       }
     }
 

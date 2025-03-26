@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BookCard } from '@/components';
@@ -15,13 +14,10 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Simulate loading data
     const timer = setTimeout(() => {
-      // Get 3 random books for featured
       const randomFeatured = [...books].sort(() => 0.5 - Math.random()).slice(0, 3);
       setFeaturedBooks(randomFeatured);
       
-      // Get 4 books for new arrivals (different from featured)
       const remaining = books.filter(book => !randomFeatured.find(b => b.id === book.id));
       setNewBooks(remaining.slice(0, 4));
       
@@ -40,7 +36,6 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar cartItemsCount={cartItemsCount} />
       
-      {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 bg-gradient-to-b from-muted to-transparent">
         <div className="container mx-auto text-center max-w-3xl">
           <h1 className="text-5xl md:text-6xl font-medium tracking-tight mb-6 animate-fade-in">
@@ -61,7 +56,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Featured Books */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -85,12 +79,12 @@ const Index = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredBooks.map(book => (
+              {featuredBooks.map((book, index) => (
                 <BookCard 
                   key={book.id} 
                   book={book} 
                   onAddToCart={handleAddToCart}
-                  className="animate-slide-up"
+                  className={`animate-slide-up animate-delay-${index * 100}`}
                 />
               ))}
             </div>
@@ -98,7 +92,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Categories */}
       <section className="py-16 px-4 bg-muted/30">
         <div className="container mx-auto">
           <h2 className="section-title text-center">Browse by Category</h2>
@@ -117,7 +110,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* New Arrivals */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -146,8 +138,7 @@ const Index = () => {
                   key={book.id} 
                   book={book} 
                   onAddToCart={handleAddToCart}
-                  className="animate-slide-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className={`animate-slide-up animate-delay-${index * 100}`}
                 />
               ))}
             </div>
@@ -155,7 +146,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-book-primary/10 to-book-accent/10">
         <div className="container mx-auto text-center max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-medium mb-6 animate-fade-in">
@@ -171,7 +161,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Footer */}
       <footer className="bg-muted/30 py-12 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

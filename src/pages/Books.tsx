@@ -18,7 +18,6 @@ const Books = () => {
   const categories = ['All', ...Array.from(new Set(books.map(book => book.category)))];
   
   useEffect(() => {
-    // Simulate loading data
     const timer = setTimeout(() => {
       setDisplayBooks(books);
       setIsLoading(false);
@@ -30,7 +29,6 @@ const Books = () => {
   useEffect(() => {
     let filtered = [...books];
     
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(book => 
         book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -38,12 +36,10 @@ const Books = () => {
       );
     }
     
-    // Filter by category
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(book => book.category === selectedCategory);
     }
     
-    // Sort books
     switch (sortBy) {
       case 'priceAsc':
         filtered.sort((a, b) => a.price - b.price);
@@ -58,7 +54,6 @@ const Books = () => {
         filtered.sort((a, b) => b.title.localeCompare(a.title));
         break;
       default:
-        // relevance - keep original order
         break;
     }
     
@@ -160,8 +155,7 @@ const Books = () => {
                     key={book.id} 
                     book={book} 
                     onAddToCart={handleAddToCart}
-                    className="animate-slide-up"
-                    style={{ animationDelay: `${index * 50}ms` }}
+                    className={`animate-slide-up animate-delay-${index * 50}`}
                   />
                 ))}
               </div>
