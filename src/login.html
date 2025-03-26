@@ -75,9 +75,9 @@
       
       // Simulate API authentication
       setTimeout(() => {
-        // For demo purposes - in a real app, you would validate against a backend
-        // Using hardcoded values for demonstration
-        if (email === 'user@example.com' && password === 'password') {
+        // Updated valid credentials to include the new user
+        if ((email === 'user@example.com' && password === 'password') || 
+            (email === 'chhotusidhant@gmail.com' && password === 'Chotu@1234')) {
           // Store auth info if remember is checked
           if (remember) {
             localStorage.setItem('authUser', JSON.stringify({ email }));

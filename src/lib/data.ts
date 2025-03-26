@@ -100,6 +100,12 @@ export const users: User[] = [
     name: 'Jane Smith',
     email: 'jane@example.com',
     password: 'password123'
+  },
+  {
+    id: '3',
+    name: 'Sidhant Chotu',
+    email: 'chhotusidhant@gmail.com',
+    password: 'Chotu@1234'
   }
 ];
 
