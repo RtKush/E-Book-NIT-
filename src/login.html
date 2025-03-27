@@ -48,6 +48,15 @@
   </div>
 
   <script>
+    // Check if user is already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+      const authUser = localStorage.getItem('authUser') || sessionStorage.getItem('authUser');
+      if (authUser) {
+        // Redirect to profile page if already logged in
+        window.location.href = '/profile';
+      }
+    });
+    
     function togglePassword() {
       const passwordInput = document.getElementById('password');
       if (passwordInput.type === 'password') {
@@ -73,16 +82,22 @@
       loginButton.disabled = true;
       loginButton.innerText = 'Signing in...';
       
-      // Simulate API authentication
+      // Simulate API authentication - using the same valid credentials as in data.ts
       setTimeout(() => {
-        // Updated valid credentials to include the new user
+        // Check credentials against hardcoded values
         if ((email === 'user@example.com' && password === 'password') || 
+            (email === 'john@example.com' && password === 'password123') || 
+            (email === 'jane@example.com' && password === 'password123') || 
             (email === 'chhotusidhant@gmail.com' && password === 'Chotu@1234')) {
-          // Store auth info if remember is checked
+          
+          // Create a user object similar to what the React version would store
+          const user = { email: email };
+          
+          // Store auth info based on remember checkbox
           if (remember) {
-            localStorage.setItem('authUser', JSON.stringify({ email }));
+            localStorage.setItem('authUser', JSON.stringify(user));
           } else {
-            sessionStorage.setItem('authUser', JSON.stringify({ email }));
+            sessionStorage.setItem('authUser', JSON.stringify(user));
           }
           
           // Redirect to profile page

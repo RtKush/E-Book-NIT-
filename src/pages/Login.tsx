@@ -17,7 +17,14 @@ const Login = ({ isAuthenticated = false }) => {
     if (isStandaloneLogin) {
       window.location.href = '/login';
     }
-  }, []);
+    
+    // Check if user is already authenticated via localStorage
+    const authUser = localStorage.getItem('authUser');
+    if (authUser) {
+      // Update the app's auth state
+      navigate('/profile');
+    }
+  }, [navigate]);
   
   // Redirect if already logged in
   if (isAuthenticated) {
@@ -29,7 +36,7 @@ const Login = ({ isAuthenticated = false }) => {
     setError(null);
     
     try {
-      // Simulate API call
+      // Try to authenticate with provided credentials
       const user = authenticate(data.email, data.password);
       
       if (user) {
