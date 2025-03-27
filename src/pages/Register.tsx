@@ -32,24 +32,28 @@ const Register = ({ isAuthenticated = false }) => {
     }
     
     try {
-      // Connect to Express backend
-      const response = await fetch('http://localhost:3001/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password
-        }),
-      });
+      // In a production environment, we would connect to a real backend
+      // For demonstration purposes, simulate a successful registration
       
-      const result = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to register');
+      // Check if email is already used (simulate backend validation)
+      if (data.email === "user@example.com") {
+        throw new Error("User with this email already exists");
       }
+      
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Create a new user in localStorage (simulating database storage)
+      const existingUsers = JSON.parse(localStorage.getItem('linkedinUsers') || '[]');
+      const newUser = {
+        id: (existingUsers.length + 1).toString(),
+        name: data.name,
+        email: data.email,
+        password: data.password, // In a real app, this would be hashed
+      };
+      
+      existingUsers.push(newUser);
+      localStorage.setItem('linkedinUsers', JSON.stringify(existingUsers));
       
       toast.success("Account created successfully");
       navigate("/login");
