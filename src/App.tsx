@@ -72,7 +72,7 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login isAuthenticated={isAuthenticated} />} />
             <Route path="/register" element={<Register isAuthenticated={isAuthenticated} />} />
-            <Route path="/profile" element={<ProtectedRoute element={<Profile user={currentUser} />} />} />
+            <Route path="/profile" element={<ProtectedRoute element={<Profile user={currentUser} isAuthenticated={isAuthenticated} />} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

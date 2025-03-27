@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthForm } from '@/components';
-import { authenticate } from '@/lib/data';
 import Navbar from '@/components/Navbar';
 import { toast } from 'sonner';
 
@@ -36,20 +35,29 @@ const Login = ({ isAuthenticated = false }) => {
     setError(null);
     
     try {
-      // Try to authenticate with provided credentials
-      const user = authenticate(data.email, data.password);
+      // Connect to our Express backend
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
       
-      if (user) {
-        // Store user info in localStorage for persistence
-        localStorage.setItem('authUser', JSON.stringify(user));
-        
-        toast.success("Login successful");
-        navigate("/profile");
-      } else {
-        setError("Invalid email or password. Please try again.");
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to login');
       }
-    } catch (err) {
-      setError("An error occurred during login. Please try again.");
+      
+      // Store user info and token in localStorage for persistence
+      localStorage.setItem('authUser', JSON.stringify(result.user));
+      localStorage.setItem('authToken', result.token);
+      
+      toast.success("Login successful");
+      navigate("/profile");
+    } catch (err: any) {
+      setError(err.message || "An error occurred during login. Please try again.");
       console.error(err);
     } finally {
       setIsLoading(false);

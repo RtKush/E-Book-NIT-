@@ -1,18 +1,20 @@
-
 import { useState, useEffect } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import { users } from '@/lib/data';
-import { User, ShoppingBag, Heart, LogOut, Settings } from 'lucide-react';
+import { User as UserIcon, ShoppingBag, Heart, LogOut, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { User } from '@/lib/types';
 
-// For demo purposes - in a real app this would come from authentication state
-const DEMO_USER_ID = '1';
+interface ProfileProps {
+  user?: User | null;
+  isAuthenticated?: boolean;
+}
 
-const Profile = ({ isAuthenticated = true }) => {
+const Profile = ({ user, isAuthenticated = true }: ProfileProps) => {
   const [activeTab, setActiveTab] = useState('profile');
-  const [user, setUser] = useState<any>(null);
+  const [profileData, setProfileData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   // Redirect if not logged in
@@ -21,19 +23,29 @@ const Profile = ({ isAuthenticated = true }) => {
   }
   
   useEffect(() => {
-    // Simulate API call
-    const timer = setTimeout(() => {
-      const foundUser = users.find(u => u.id === DEMO_USER_ID);
-      setUser(foundUser);
+    // Use the passed user prop if available, otherwise load from API
+    if (user) {
+      setProfileData(user);
       setIsLoading(false);
-    }, 800);
-    
-    return () => clearTimeout(timer);
-  }, []);
+    } else {
+      // Simulate API call
+      const timer = setTimeout(() => {
+        const foundUser = users.find(u => u.id === '1');
+        setProfileData(foundUser);
+        setIsLoading(false);
+      }, 800);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
   
   const handleLogout = () => {
-    // In a real app, this would handle the logout logic
+    // Clear authentication data
+    localStorage.removeItem('authUser');
+    // Trigger a storage event so other tabs can react
+    window.dispatchEvent(new Event('storage'));
     toast.success("Logout successful");
+    // Redirect will happen automatically due to the auth state change
   };
 
   if (isLoading) {
@@ -65,10 +77,10 @@ const Profile = ({ isAuthenticated = true }) => {
       <div className="page-container pt-24">
         <div className="text-center mb-12">
           <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-            <User size={32} className="text-muted-foreground" />
+            <UserIcon size={32} className="text-muted-foreground" />
           </div>
-          <h1 className="text-2xl font-medium">{user?.name || 'User'}</h1>
-          <p className="text-muted-foreground">{user?.email || 'user@example.com'}</p>
+          <h1 className="text-2xl font-medium">{profileData?.name || 'User'}</h1>
+          <p className="text-muted-foreground">{profileData?.email || 'user@example.com'}</p>
         </div>
         
         <div className="max-w-3xl mx-auto">
@@ -128,7 +140,7 @@ const Profile = ({ isAuthenticated = true }) => {
                     <label className="text-sm font-medium text-muted-foreground">Full Name</label>
                     <input
                       type="text"
-                      value={user?.name || ''}
+                      value={profileData?.name || ''}
                       className="input-field w-full mt-1"
                       readOnly
                     />
@@ -137,7 +149,7 @@ const Profile = ({ isAuthenticated = true }) => {
                     <label className="text-sm font-medium text-muted-foreground">Email Address</label>
                     <input
                       type="email"
-                      value={user?.email || ''}
+                      value={profileData?.email || ''}
                       className="input-field w-full mt-1"
                       readOnly
                     />
