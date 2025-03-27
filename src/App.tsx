@@ -6,9 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Index from "./pages/Index";
-import Books from "./pages/Books";
-import BookDetails from "./pages/BookDetails";
-import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
@@ -68,13 +65,14 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/book/:id" element={<BookDetails />} />
-            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login isAuthenticated={isAuthenticated} />} />
             <Route path="/register" element={<Register isAuthenticated={isAuthenticated} />} />
             <Route path="/profile" element={<ProtectedRoute element={<Profile user={currentUser} isAuthenticated={isAuthenticated} />} />} />
             <Route path="/feed" element={<ProtectedRoute element={<Feed isAuthenticated={isAuthenticated} />} />} />
+            <Route path="/mynetwork" element={<ProtectedRoute element={<div className="pt-20 text-center">My Network page coming soon</div>} />} />
+            <Route path="/jobs" element={<ProtectedRoute element={<div className="pt-20 text-center">Jobs page coming soon</div>} />} />
+            <Route path="/messaging" element={<ProtectedRoute element={<div className="pt-20 text-center">Messaging page coming soon</div>} />} />
+            <Route path="/notifications" element={<ProtectedRoute element={<div className="pt-20 text-center">Notifications page coming soon</div>} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
