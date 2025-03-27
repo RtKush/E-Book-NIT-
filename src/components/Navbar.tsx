@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, Menu, X } from 'lucide-react';
@@ -7,7 +6,12 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { LinkedinIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const Navbar = ({ isAuthenticated = false }) => {
+interface NavbarProps {
+  isAuthenticated?: boolean;
+  cartItemsCount?: number;
+}
+
+const Navbar = ({ isAuthenticated = false, cartItemsCount }: NavbarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -24,7 +28,6 @@ const Navbar = ({ isAuthenticated = false }) => {
   }, []);
 
   useEffect(() => {
-    // Close mobile menu when route changes
     setIsMenuOpen(false);
   }, [location.pathname]);
 
@@ -137,7 +140,6 @@ const Navbar = ({ isAuthenticated = false }) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMobile && isMenuOpen && (
         <div className="bg-white border-t animate-slide-down">
           <nav className="container mx-auto px-4 py-4">

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { books } from '@/lib/data';
 import { Book } from '@/lib/types';
@@ -71,7 +72,7 @@ const Books = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar cartItemsCount={cartItemsCount} />
+      <Navbar isAuthenticated={false} />
       
       <div className="page-container pt-24">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">

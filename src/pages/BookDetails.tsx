@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { books } from '@/lib/data';
@@ -16,13 +15,11 @@ const BookDetails = () => {
   const [relatedBooks, setRelatedBooks] = useState<Book[]>([]);
   
   useEffect(() => {
-    // Simulate API call
     const timer = setTimeout(() => {
       const foundBook = books.find(b => b.id === id) || null;
       setBook(foundBook);
       
       if (foundBook) {
-        // Get books in the same category
         const sameCategory = books.filter(b => 
           b.id !== foundBook.id && b.category === foundBook.category
         ).slice(0, 3);
@@ -43,7 +40,7 @@ const BookDetails = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen">
-        <Navbar />
+        <Navbar isAuthenticated={false} />
         <div className="page-container pt-24">
           <div className="animate-pulse">
             <div className="h-8 bg-muted w-1/4 rounded mb-8"></div>
@@ -66,7 +63,7 @@ const BookDetails = () => {
   if (!book) {
     return (
       <div className="min-h-screen">
-        <Navbar />
+        <Navbar isAuthenticated={false} />
         <div className="page-container pt-24 text-center">
           <h1 className="text-3xl font-medium mb-6">Book Not Found</h1>
           <p className="text-muted-foreground mb-8">
@@ -82,7 +79,7 @@ const BookDetails = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar cartItemsCount={cartItemsCount} />
+      <Navbar isAuthenticated={false} />
       
       <div className="page-container pt-24">
         <Link to="/books" className="inline-flex items-center text-muted-foreground hover:text-primary mb-8">

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { sampleCart } from '@/lib/data';
@@ -45,7 +44,7 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar cartItemsCount={cartItems.length} />
+      <Navbar isAuthenticated={false} />
       
       <div className="page-container pt-24">
         <h1 className="text-3xl font-medium mb-6">Shopping Cart</h1>
