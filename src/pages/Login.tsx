@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { AuthForm } from '@/components';
 import { toast } from 'sonner';
-import { LinkedInIcon } from 'lucide-react';
+import { LinkedinIcon } from 'lucide-react';
 
 const Login = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const Login = ({ isAuthenticated = false }) => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-10">
           <Link to="/" className="flex items-center">
-            <LinkedInIcon className="w-10 h-10 text-blue-600" />
+            <LinkedinIcon className="w-10 h-10 text-blue-600" />
             <span className="text-2xl font-semibold ml-1 text-blue-600">Linked</span>
             <span className="sr-only">in</span>
           </Link>
