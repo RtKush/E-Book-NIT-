@@ -2,7 +2,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Github, Twitter } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
 interface AuthFormProps {
   mode: 'login' | 'register';
@@ -35,13 +38,13 @@ const AuthForm = ({ mode, onSubmit, isLoading = false, error }: AuthFormProps) =
   };
 
   return (
-    <div className="glass-card p-8 max-w-md w-full mx-auto animate-fade-in">
-      <h2 className="text-3xl font-medium text-center mb-8">
-        {mode === 'login' ? 'Sign In' : 'Create Account'}
+    <div className="w-full">
+      <h2 className="text-2xl font-medium mb-6">
+        {mode === 'login' ? 'Sign in' : 'Join LinkedIn'}
       </h2>
       
       {error && (
-        <div className="bg-destructive/10 text-destructive p-3 rounded mb-6 text-sm">
+        <div className="bg-red-50 text-red-700 p-3 rounded mb-6 text-sm">
           {error}
         </div>
       )}
@@ -49,86 +52,92 @@ const AuthForm = ({ mode, onSubmit, isLoading = false, error }: AuthFormProps) =
       <form onSubmit={handleSubmit} className="space-y-4">
         {mode === 'register' && (
           <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium">
+            <Label htmlFor="name" className="text-sm font-medium">
               Full Name
-            </label>
-            <input
+            </Label>
+            <Input
               id="name"
               name="name"
               type="text"
               required
               value={formData.name}
               onChange={handleChange}
-              className="input-field w-full"
+              className="w-full"
               placeholder="John Doe"
             />
           </div>
         )}
         
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email Address
-          </label>
-          <input
+          <Label htmlFor="email" className="text-sm font-medium">
+            Email or phone
+          </Label>
+          <Input
             id="email"
             name="email"
             type="email"
             required
             value={formData.email}
             onChange={handleChange}
-            className="input-field w-full"
+            className="w-full"
             placeholder="example@email.com"
           />
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium">
+          <Label htmlFor="password" className="text-sm font-medium">
             Password
-          </label>
+          </Label>
           <div className="relative">
-            <input
+            <Input
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
               required
               value={formData.password}
               onChange={handleChange}
-              className="input-field w-full pr-10"
+              className="w-full pr-10"
               placeholder="••••••••"
             />
             <button 
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+          <p className="text-xs text-gray-500 mt-1">
+            {mode === 'login' ? 
+              <Link to="/forgot-password" className="text-blue-600 hover:underline">Forgot password?</Link> : 
+              "Password must be 6+ characters"
+            }
+          </p>
         </div>
         
         {mode === 'register' && (
           <div className="space-y-2">
-            <label htmlFor="confirmPassword" className="text-sm font-medium">
+            <Label htmlFor="confirmPassword" className="text-sm font-medium">
               Confirm Password
-            </label>
-            <input
+            </Label>
+            <Input
               id="confirmPassword"
               name="confirmPassword"
               type="password"
               required
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="input-field w-full"
+              className="w-full"
               placeholder="••••••••"
             />
           </div>
         )}
         
-        <button
+        <Button
           type="submit"
           disabled={isLoading}
           className={cn(
-            "btn-primary w-full mt-6",
+            "w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 h-auto",
             isLoading && "opacity-70 cursor-not-allowed"
           )}
         >
@@ -141,23 +150,56 @@ const AuthForm = ({ mode, onSubmit, isLoading = false, error }: AuthFormProps) =
               Processing...
             </span>
           ) : (
-            <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+            <span>{mode === 'login' ? 'Sign in' : 'Agree & Join'}</span>
           )}
-        </button>
+        </Button>
+        
+        {mode === 'login' && (
+          <div className="relative mt-6 mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-gray-500">or</span>
+            </div>
+          </div>
+        )}
+        
+        {mode === 'login' && (
+          <div className="space-y-3">
+            <Button 
+              type="button"
+              variant="outline" 
+              className="w-full border-gray-300 text-gray-700 font-medium rounded-full flex items-center justify-center gap-2"
+            >
+              <Github size={16} />
+              Sign in with GitHub
+            </Button>
+            
+            <Button 
+              type="button"
+              variant="outline" 
+              className="w-full border-gray-300 text-gray-700 font-medium rounded-full flex items-center justify-center gap-2"
+            >
+              <Twitter size={16} />
+              Sign in with Twitter
+            </Button>
+          </div>
+        )}
       </form>
       
       <div className="mt-6 text-center text-sm">
         {mode === 'login' ? (
-          <p>
-            Don't have an account?{' '}
-            <Link to="/register" className="text-primary hover:text-primary/80">
-              Sign up
+          <p className="text-gray-600">
+            New to LinkedIn?{' '}
+            <Link to="/register" className="text-blue-600 hover:underline font-medium">
+              Join now
             </Link>
           </p>
         ) : (
-          <p>
-            Already have an account?{' '}
-            <Link to="/login" className="text-primary hover:text-primary/80">
+          <p className="text-gray-600">
+            Already on LinkedIn?{' '}
+            <Link to="/login" className="text-blue-600 hover:underline font-medium">
               Sign in
             </Link>
           </p>

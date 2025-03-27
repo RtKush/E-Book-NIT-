@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Feed from "./pages/Feed";
 import NotFound from "./pages/NotFound";
 import { User } from "./lib/types";
 
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="/login" element={<Login isAuthenticated={isAuthenticated} />} />
             <Route path="/register" element={<Register isAuthenticated={isAuthenticated} />} />
             <Route path="/profile" element={<ProtectedRoute element={<Profile user={currentUser} isAuthenticated={isAuthenticated} />} />} />
+            <Route path="/feed" element={<ProtectedRoute element={<Feed isAuthenticated={isAuthenticated} />} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

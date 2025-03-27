@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { AuthForm } from '@/components';
-import Navbar from '@/components/Navbar';
 import { toast } from 'sonner';
+import { LinkedInIcon } from 'lucide-react';
 
 const Login = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const Login = ({ isAuthenticated = false }) => {
       localStorage.setItem('authToken', result.token);
       
       toast.success("Login successful");
-      navigate("/profile");
+      navigate("/feed");
     } catch (err: any) {
       setError(err.message || "An error occurred during login. Please try again.");
       console.error(err);
@@ -65,17 +65,34 @@ const Login = ({ isAuthenticated = false }) => {
   };
 
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      <div className="page-container pt-24">
-        <div className="max-w-md mx-auto">
-          <AuthForm
-            mode="login"
-            onSubmit={handleLogin}
-            isLoading={isLoading}
-            error={error || undefined}
-          />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-10">
+          <Link to="/" className="flex items-center">
+            <LinkedInIcon className="w-10 h-10 text-blue-600" />
+            <span className="text-2xl font-semibold ml-1 text-blue-600">Linked</span>
+            <span className="sr-only">in</span>
+          </Link>
+        </div>
+        
+        <div className="flex flex-col md:flex-row items-start gap-10">
+          <div className="w-full md:w-6/12 md:pt-12">
+            <h1 className="text-3xl md:text-5xl font-light text-gray-900 mb-4">
+              Welcome to your professional community
+            </h1>
+            <p className="text-lg text-gray-600 mb-6">
+              Connect with professionals, stay informed with industry news, and build your career.
+            </p>
+          </div>
+          
+          <div className="w-full md:w-5/12 bg-white rounded-lg shadow-md p-6">
+            <AuthForm
+              mode="login"
+              onSubmit={handleLogin}
+              isLoading={isLoading}
+              error={error || undefined}
+            />
+          </div>
         </div>
       </div>
     </div>
