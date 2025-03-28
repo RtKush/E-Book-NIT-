@@ -113,7 +113,7 @@
 
 @layer components {
   .book-card {
-    @apply bg-white rounded-xl overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md;
+    @apply bg-white rounded-xl overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md dark:bg-gray-800 dark:border dark:border-gray-700;
   }
 
   .book-image {
@@ -149,6 +149,6 @@
   }
 
   .glass-card {
-    @apply bg-white/70 backdrop-blur-md rounded-xl shadow-sm border border-white/20;
+    @apply bg-white/70 backdrop-blur-md rounded-xl shadow-sm border border-white/20 dark:bg-gray-800/70 dark:border-gray-700/20;
   }
 }

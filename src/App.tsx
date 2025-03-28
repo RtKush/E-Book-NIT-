@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Feed from "./pages/Feed";
 import NotFound from "./pages/NotFound";
+import OrderDetails from "./pages/OrderDetails";
 import { User } from "./lib/types";
 
 const queryClient = new QueryClient();
@@ -73,6 +74,7 @@ const App = () => {
             <Route path="/jobs" element={<ProtectedRoute element={<div className="pt-20 text-center">Jobs page coming soon</div>} />} />
             <Route path="/messaging" element={<ProtectedRoute element={<div className="pt-20 text-center">Messaging page coming soon</div>} />} />
             <Route path="/notifications" element={<ProtectedRoute element={<div className="pt-20 text-center">Notifications page coming soon</div>} />} />
+            <Route path="/orders/:id" element={<ProtectedRoute element={<OrderDetails />} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
