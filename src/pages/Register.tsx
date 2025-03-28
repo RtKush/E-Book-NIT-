@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { AuthForm } from '@/components';
 import { toast } from 'sonner';
-import { LinkedinIcon } from 'lucide-react';
+import { BookIcon } from 'lucide-react';
 
 const Register = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Register = ({ isAuthenticated = false }) => {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Create a new user in localStorage (simulating database storage)
-      const existingUsers = JSON.parse(localStorage.getItem('linkedinUsers') || '[]');
+      const existingUsers = JSON.parse(localStorage.getItem('bookstoreUsers') || '[]');
       const newUser = {
         id: (existingUsers.length + 1).toString(),
         name: data.name,
@@ -53,7 +53,7 @@ const Register = ({ isAuthenticated = false }) => {
       };
       
       existingUsers.push(newUser);
-      localStorage.setItem('linkedinUsers', JSON.stringify(existingUsers));
+      localStorage.setItem('bookstoreUsers', JSON.stringify(existingUsers));
       
       toast.success("Account created successfully");
       navigate("/login");
@@ -70,9 +70,8 @@ const Register = ({ isAuthenticated = false }) => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-10">
           <Link to="/" className="flex items-center">
-            <LinkedinIcon className="w-10 h-10 text-blue-600" />
-            <span className="text-2xl font-semibold ml-1 text-blue-600">Linked</span>
-            <span className="sr-only">in</span>
+            <BookIcon className="w-10 h-10 text-blue-600" />
+            <span className="text-2xl font-semibold ml-1 text-blue-600">Bookstore</span>
           </Link>
         </div>
         

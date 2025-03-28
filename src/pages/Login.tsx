@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { AuthForm } from '@/components';
 import { toast } from 'sonner';
-import { LinkedinIcon } from 'lucide-react';
+import { BookIcon } from 'lucide-react';
 
 const Login = ({ isAuthenticated = false }) => {
   const navigate = useNavigate();
@@ -35,27 +35,49 @@ const Login = ({ isAuthenticated = false }) => {
     setError(null);
     
     try {
-      // Connect to our Express backend
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      // For demo purposes, we'll simulate a successful login
+      // In a real app, this would connect to a backend API
       
-      const result = await response.json();
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to login');
+      // Simple validation (in a real app, this would be handled by the backend)
+      if (data.email === "admin@bookstore.com" && data.password === "password") {
+        // Create a mock user
+        const user = {
+          id: "1",
+          name: "Admin User",
+          email: data.email,
+          role: "admin"
+        };
+        
+        // Store in localStorage
+        localStorage.setItem('authUser', JSON.stringify(user));
+        localStorage.setItem('authToken', 'mock-jwt-token');
+        
+        toast.success("Login successful");
+        navigate("/feed");
+      } else {
+        // For demo: allow any email/password with minimum validation
+        if (data.email.includes('@') && data.password.length >= 6) {
+          // Create a mock user
+          const user = {
+            id: "2",
+            name: data.email.split('@')[0],
+            email: data.email,
+            role: "user"
+          };
+          
+          // Store in localStorage
+          localStorage.setItem('authUser', JSON.stringify(user));
+          localStorage.setItem('authToken', 'mock-jwt-token');
+          
+          toast.success("Login successful");
+          navigate("/feed");
+        } else {
+          throw new Error("Invalid email or password format");
+        }
       }
-      
-      // Store user info and token in localStorage for persistence
-      localStorage.setItem('authUser', JSON.stringify(result.user));
-      localStorage.setItem('authToken', result.token);
-      
-      toast.success("Login successful");
-      navigate("/feed");
     } catch (err: any) {
       setError(err.message || "An error occurred during login. Please try again.");
       console.error(err);
@@ -69,19 +91,18 @@ const Login = ({ isAuthenticated = false }) => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-10">
           <Link to="/" className="flex items-center">
-            <LinkedinIcon className="w-10 h-10 text-blue-600" />
-            <span className="text-2xl font-semibold ml-1 text-blue-600">Linked</span>
-            <span className="sr-only">in</span>
+            <BookIcon className="w-10 h-10 text-blue-600" />
+            <span className="text-2xl font-semibold ml-1 text-blue-600">Bookstore</span>
           </Link>
         </div>
         
         <div className="flex flex-col md:flex-row items-start gap-10">
           <div className="w-full md:w-6/12 md:pt-12">
             <h1 className="text-3xl md:text-5xl font-light text-gray-900 mb-4">
-              Welcome to your professional community
+              Welcome to your book community
             </h1>
             <p className="text-lg text-gray-600 mb-6">
-              Connect with professionals, stay informed with industry news, and build your career.
+              Discover new books, connect with readers, and build your personal library.
             </p>
           </div>
           

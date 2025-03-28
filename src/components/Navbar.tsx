@@ -1,9 +1,9 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, Menu, X } from 'lucide-react';
+import { Search, Home, Users, Briefcase, MessageSquare, Bell, User, Menu, X, BookIcon, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { LinkedinIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface NavbarProps {
@@ -50,8 +50,8 @@ const Navbar = ({ isAuthenticated = false, cartItemsCount }: NavbarProps) => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <LinkedinIcon className="h-8 w-8 text-blue-600" />
-              <span className="text-blue-600 font-semibold ml-1">LinkedIn</span>
+              <BookIcon className="h-8 w-8 text-blue-600" />
+              <span className="text-blue-600 font-semibold ml-1">Bookstore</span>
             </Link>
 
             {isAuthenticated && !isMobile && (
@@ -60,7 +60,7 @@ const Navbar = ({ isAuthenticated = false, cartItemsCount }: NavbarProps) => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                   <input
                     type="search"
-                    placeholder="Search"
+                    placeholder="Search books"
                     className="bg-gray-100 text-sm rounded-md py-2 pl-10 pr-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
                   />
                 </div>
@@ -77,33 +77,24 @@ const Navbar = ({ isAuthenticated = false, cartItemsCount }: NavbarProps) => {
                 <Home size={20} />
                 <span className="mt-1">Home</span>
               </Link>
-              <Link to="/mynetwork" className={cn(
+              <Link to="/books" className={cn(
                 "flex flex-col items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-black",
-                location.pathname === "/mynetwork" && "text-black border-b-2 border-black"
+                location.pathname === "/books" && "text-black border-b-2 border-black"
               )}>
-                <Users size={20} />
-                <span className="mt-1">My Network</span>
+                <BookIcon size={20} />
+                <span className="mt-1">Books</span>
               </Link>
-              <Link to="/jobs" className={cn(
+              <Link to="/cart" className={cn(
                 "flex flex-col items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-black",
-                location.pathname === "/jobs" && "text-black border-b-2 border-black"
+                location.pathname === "/cart" && "text-black border-b-2 border-black"
               )}>
-                <Briefcase size={20} />
-                <span className="mt-1">Jobs</span>
-              </Link>
-              <Link to="/messaging" className={cn(
-                "flex flex-col items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-black",
-                location.pathname === "/messaging" && "text-black border-b-2 border-black"
-              )}>
-                <MessageSquare size={20} />
-                <span className="mt-1">Messaging</span>
-              </Link>
-              <Link to="/notifications" className={cn(
-                "flex flex-col items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-black",
-                location.pathname === "/notifications" && "text-black border-b-2 border-black"
-              )}>
-                <Bell size={20} />
-                <span className="mt-1">Notifications</span>
+                <ShoppingBag size={20} />
+                <span className="mt-1">Cart</span>
+                {cartItemsCount ? (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                    {cartItemsCount}
+                  </span>
+                ) : null}
               </Link>
               <div className="flex flex-col items-center px-3 py-2 text-sm font-medium text-gray-500 hover:text-black cursor-pointer relative group">
                 <User size={20} />
@@ -159,50 +150,31 @@ const Navbar = ({ isAuthenticated = false, cartItemsCount }: NavbarProps) => {
                 </li>
                 <li>
                   <Link 
-                    to="/mynetwork" 
+                    to="/books" 
                     className={cn(
                       "flex items-center py-2 text-base font-medium",
-                      location.pathname === "/mynetwork" ? "text-blue-600" : "text-gray-700"
+                      location.pathname === "/books" ? "text-blue-600" : "text-gray-700"
                     )}
                   >
-                    <Users size={20} className="mr-3" />
-                    My Network
+                    <BookIcon size={20} className="mr-3" />
+                    Books
                   </Link>
                 </li>
                 <li>
                   <Link 
-                    to="/jobs" 
+                    to="/cart" 
                     className={cn(
                       "flex items-center py-2 text-base font-medium",
-                      location.pathname === "/jobs" ? "text-blue-600" : "text-gray-700"
+                      location.pathname === "/cart" ? "text-blue-600" : "text-gray-700"
                     )}
                   >
-                    <Briefcase size={20} className="mr-3" />
-                    Jobs
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    to="/messaging" 
-                    className={cn(
-                      "flex items-center py-2 text-base font-medium",
-                      location.pathname === "/messaging" ? "text-blue-600" : "text-gray-700"
-                    )}
-                  >
-                    <MessageSquare size={20} className="mr-3" />
-                    Messaging
-                  </Link>
-                </li>
-                <li>
-                  <Link 
-                    to="/notifications" 
-                    className={cn(
-                      "flex items-center py-2 text-base font-medium",
-                      location.pathname === "/notifications" ? "text-blue-600" : "text-gray-700"
-                    )}
-                  >
-                    <Bell size={20} className="mr-3" />
-                    Notifications
+                    <ShoppingBag size={20} className="mr-3" />
+                    Cart
+                    {cartItemsCount ? (
+                      <span className="ml-2 bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                        {cartItemsCount}
+                      </span>
+                    ) : null}
                   </Link>
                 </li>
                 <li>
